@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>genetic detective | biologi xii</title>
+
+<style>
+:root{
+  --purple:#8e73b5;
+  --ink:#514568;
+  --lav:#eee4ff;
+  --pink:#fce3ee;
+  --mint:#ddf4e8;
+  --yellow:#fff1c8;
+  --blue:#e2f1ff;
+  --white:#fffdfd;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Segoe UI",Arial,sans-serif;
+  color:var(--ink);
+  background:linear-gradient(135deg,#faf6ff,#f2faff,#fff8f0);
+}
+header{padding:20px}
+.cover{
+  min-height:570px;
+  padding:50px 6%;
+  border-radius:35px;
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+  background:
+    radial-gradient(circle at 80% 15%,#fff8d9 0,transparent 22%),
+    radial-gradient(circle at 15% 90%,#d9f4e8 0,transparent 25%),
+    linear-gradient(135deg,#f0e5ff,#fce4ef 55%,#e5f4ff);
+  box-shadow:0 15px 45px #a58bc522;
+}
+.cover-content{position:relative;z-index:2;flex:1;max-width:600px}
+.cover-badge{
+  display:inline-block;padding:10px 16px;border-radius:30px;
+  background:#ffffffb8;border:1px solid white;color:#78639d;
+  font-size:12px;font-weight:800;letter-spacing:1px
+}
+.cover h1{
+  font-size:clamp(48px,7vw,88px);line-height:.95;
+  margin:24px 0 15px;font-weight:1000;letter-spacing:-3px;color:#5c4b7c
+}
+.cover h1 span{color:#b47ba9}
+.cover h2{font-size:clamp(17px,2vw,23px);line-height:1.5;color:#66577f}
+.cover-desc{max-width:480px;line-height:1.9;color:#756a8b}
+.cover-button{
+  margin-top:15px;padding:16px 24px;border-radius:18px;
+  background:linear-gradient(135deg,#9379bc,#c18cb4);
+  color:white;font-size:15px;box-shadow:0 8px 20px #987bb944
+}
+.cover-bottom{display:flex;flex-wrap:wrap;gap:10px;margin-top:35px}
+.cover-bottom span{background:#ffffff99;padding:9px 13px;border-radius:20px;font-size:12px;color:#7e6b9b;font-weight:bold}
+.cover-visual{flex:1;display:flex;align-items:center;justify-content:center;min-width:280px}
+.visual-circle{
+  width:min(390px,35vw);height:min(390px,35vw);min-width:280px;min-height:280px;
+  border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#ffffffa8,#e8d7f866);border:2px solid #ffffffb5;
+  box-shadow:inset 0 0 50px #ffffffaa,0 20px 50px #b49bc333
+}
+.dna-art{width:150px;height:260px;position:relative;display:flex;justify-content:space-between}
+.dna-strand{display:flex;flex-direction:column;justify-content:space-around;font-size:30px;z-index:2}
+.strand1 span:nth-child(odd){color:#b28bcb}
+.strand1 span:nth-child(even){color:#e7a3c3}
+.strand2 span:nth-child(odd){color:#8dcbb6}
+.strand2 span:nth-child(even){color:#a2bde5}
+.dna-rungs{position:absolute;left:25px;right:25px;top:10px;bottom:10px;display:flex;flex-direction:column;justify-content:space-around}
+.dna-rungs i{height:5px;width:100%;border-radius:10px;background:linear-gradient(90deg,#d8a6d2,#a9d9c8);transform:rotate(-8deg)}
+.floating-card{
+  position:absolute;display:flex;align-items:center;gap:10px;padding:12px 16px;
+  border-radius:18px;background:#ffffffed;box-shadow:0 10px 30px #8f7ba322;
+  animation:float 4s ease-in-out infinite
+}
+.floating-card span{font-size:27px}
+.floating-card small{display:block;font-size:10px;color:#9c8aaf}
+.floating-card b{display:block;font-size:12px;color:#68577f}
+.card-chromosome{top:12%;left:-10%}
+.card-lab{bottom:10%;right:-8%;animation-delay:1s}
+.card-question{top:42%;right:-10%;width:50px;height:50px;justify-content:center;background:#ffe9a8;color:#997b43;font-size:30px;font-weight:bold}
+.cover-decor{position:absolute;opacity:.45;font-size:30px;animation:float 5s ease-in-out infinite}
+.decor1{top:8%;left:45%}.decor2{bottom:8%;left:48%;animation-delay:1s}.decor3{top:15%;right:5%;animation-delay:2s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+main{max-width:1150px;margin:auto;padding:0 20px 40px}
+nav{
+  display:flex;gap:8px;overflow-x:auto;padding:12px 0;
+  position:sticky;top:0;background:#faf8ffed;z-index:5
+}
+button{border:0;padding:12px 16px;border-radius:12px;cursor:pointer;background:var(--lav);color:var(--ink);font-weight:bold}
+button:hover{filter:brightness(.96)}
+nav button.active,.primary{background:var(--purple);color:white}
+section{display:none}
+section.active{display:block}
+.card{background:var(--white);padding:20px;margin:14px 0;border-radius:20px;box-shadow:0 5px 18px #9b85b51a}
+.pink{background:#fff0f6}.lav{background:#f3ecff}.mint{background:#eaf8f1}.yellow{background:#fff8df}.blue{background:#eff8ff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.case-img{
+  width:100%;height:170px;border-radius:16px;display:flex;
+  align-items:center;justify-content:center;font-size:75px;
+  background:linear-gradient(135deg,var(--lav),var(--pink))
+}
+.mintbg{background:linear-gradient(135deg,var(--mint),#fafff9)}
+.yellowbg{background:linear-gradient(135deg,var(--yellow),#fff)}
+.bluebg{background:linear-gradient(135deg,var(--blue),#fff)}
+.pinkbg{background:linear-gradient(135deg,var(--pink),#fff)}
+.video-card{background:white;border-radius:18px;padding:15px;border:1px solid #eee}
+iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
+textarea,select{width:100%;padding:12px;margin:8px 0;border:1px solid #d9cce9;border-radius:12px;font:inherit;color:var(--ink)}
+.question{background:white;border-radius:15px;padding:17px;margin:12px 0}
+.question label{display:block;background:#f8f4fd;padding:10px;border-radius:10px;margin:6px 0;cursor:pointer}
+.result{padding:15px;background:var(--mint);border-radius:14px;margin-top:15px}
+footer{text-align:center;padding:25px;color:#887c9d}
+@media(max-width:750px){
+ .cover{flex-direction:column;text-align:center;padding:35px 22px;min-height:auto;margin:10px}
+ .cover-content{max-width:100%}.cover-desc{margin:auto}
+ .cover-bottom{justify-content:center}.cover-visual{min-width:100%;margin-top:15px}
+ .visual-circle{width:280px;height:280px}.dna-art{transform:scale(.8)}
+ .card-chromosome{left:-2%}.card-lab{right:-2%}.card-question{right:-2%}
+ .case-img{height:140px}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="cover">
+  <div class="cover-decor decor1">🧬</div>
+  <div class="cover-decor decor2">🔬</div>
+  <div class="cover-decor decor3">🧫</div>
+
+  <div class="cover-content">
+    <div class="cover-badge">✦ media pembelajaran biologi kelas xii ✦</div>
+    <h1>GENETIC<br><span>DETECTIVE</span></h1>
+    <h2>detektif genetik: gen atau kromosom?</h2>
+    <p class="cover-desc">
+      setiap kondisi memiliki cerita di balik materi genetiknya.
+      kumpulkan petunjuk, analisis bukti, dan pecahkan misteri
+      kelainan genetik melalui investigasi biologi!
+    </p>
+    <button class="cover-button" onclick="showPage('materi')">mulai investigasi →</button>
+    <div class="cover-bottom">
+      <span>🧬 explore</span><span>🔎 investigate</span><span>🧠 discover</span>
+    </div>
+  </div>
+
+  <div class="cover-visual">
+    <div class="visual-circle">
+      <div class="dna-art">
+        <div class="dna-strand strand1">
+          <span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span>
+        </div>
+        <div class="dna-strand strand2">
+          <span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span><span>●</span>
+        </div>
+        <div class="dna-rungs"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+      <div class="floating-card card-chromosome"><span>🧬</span><div><small>genetic clue</small><b>chromosome</b></div></div>
+      <div class="floating-card card-lab"><span>🔬</span><div><small>mission</small><b>find the answer!</b></div></div>
+      <div class="floating-card card-question">?</div>
+    </div>
+  </div>
+</div>
+</header>
+
+<main>
+<nav>
+<button class="active" onclick="showPage('home',this)">🏡 beranda</button>
+<button onclick="showPage('materi',this)">🧬 materi</button>
+<button onclick="showPage('galeri',this)">🖼️ galeri kasus</button>
+<button onclick="showPage('video',this)">🎬 video</button>
+<button onclick="showPage('game',this)">🕵️ game</button>
+<button onclick="showPage('analisis',this)">🔎 analisis</button>
+<button onclick="showPage('quiz',this)">📝 kuis</button>
+<button onclick="showPage('refleksi',this)">🌷 refleksi</button>
+</nav>
+
+<section id="home" class="active">
+<h2>selamat datang, detektif!</h2>
+<div class="card pink"><h3>💭 pertanyaan pemantik</h3>
+<p>mengapa seseorang dapat memiliki kondisi genetik tertentu, padahal orang tuanya belum tentu menunjukkan kondisi yang sama?</p></div>
+<div class="grid">
+<div class="card lav"><h3>🧩 misi pembelajaran</h3><p>mengenali perubahan gen dan kromosom serta menganalisis kasus berdasarkan bukti.</p></div>
+<div class="card mint"><h3>🤝 sikap ilmiah</h3><p>hindari stigma. setiap individu harus dihargai dan tidak dinilai hanya berdasarkan kondisi fisiknya.</p></div>
+</div>
+<div class="card yellow"><h3>tujuan pembelajaran</h3>
+<ol><li>menjelaskan pengertian kelainan genetik dan kaitannya dengan perubahan materi genetik.</li><li>menganalisis kasus untuk menentukan jenis kelainan genetik.</li><li>mengomunikasikan hasil analisis berdasarkan konsep biologis.</li></ol></div>
+<button class="primary" onclick="showPage('materi')">mulai belajar →</button>
+</section>
+
+<section id="materi">
+<h2>🧬 mengenal materi genetik</h2>
+<div class="grid">
+<div class="card lav"><div class="case-img">🧬</div><h3>dna</h3><p>dna merupakan molekul yang menyimpan informasi genetik suatu organisme.</p></div>
+<div class="card pink"><div class="case-img pinkbg">🔖</div><h3>gen</h3><p>gen merupakan bagian dna yang membawa informasi tertentu, misalnya informasi pembentukan protein.</p></div>
+<div class="card mint"><div class="case-img mintbg">🧵</div><h3>kromosom</h3><p>kromosom merupakan struktur dna dan protein yang mengorganisasi materi genetik di dalam sel.</p></div>
+<div class="card yellow"><div class="case-img yellowbg">🔄</div><h3>mutasi</h3><p>mutasi adalah perubahan materi genetik. perubahan dapat terjadi pada gen maupun struktur atau jumlah kromosom.</p></div>
+</div>
+<div class="card blue"><h3>kelainan genetik</h3><p>kelainan genetik dapat berkaitan dengan perubahan gen atau kromosom. untuk mengetahui penyebab suatu kondisi, kita perlu mempelajari informasi genetik yang relevan, bukan hanya melihat ciri fisik.</p></div>
+</section>
+
+<section id="galeri">
+<h2>🖼️ galeri visual kasus genetik</h2>
+<p>amati ilustrasi dan pahami hubungan kondisi dengan materi genetik.</p>
+<div class="grid">
+<div class="card pink"><div class="case-img pinkbg">🎨</div><h3>buta warna</h3><p>berkaitan dengan variasi gen yang berperan dalam penglihatan warna.</p></div>
+<div class="card mint"><div class="case-img mintbg">🩸</div><h3>hemofilia</h3><p>perubahan gen tertentu dapat memengaruhi faktor pembekuan darah.</p></div>
+<div class="card yellow"><div class="case-img yellowbg">🌞</div><h3>albinisme</h3><p>beberapa bentuk albinisme berkaitan dengan perubahan gen yang memengaruhi produksi melanin.</p></div>
+<div class="card lav"><div class="case-img">🧬</div><h3>sindrom down</h3><p>umumnya berkaitan dengan trisomi 21, yaitu adanya tiga salinan kromosom 21.</p></div>
+<div class="card blue"><div class="case-img bluebg">🧬</div><h3>sindrom turner</h3><p>umumnya berkaitan dengan kondisi satu kromosom x lengkap (45,x).</p></div>
+<div class="card mint"><div class="case-img mintbg">🖐️</div><h3>polidaktili</h3><p>dapat berkaitan dengan variasi gen yang memengaruhi jumlah jari.</p></div>
+</div>
+<div class="card yellow"><p>📌 ilustrasi bersifat konseptual. kondisi genetik memiliki variasi dan tidak semua individu menunjukkan ciri yang sama.</p></div>
+</section>
+
+<section id="video">
+<h2>🎬 video pembelajaran</h2>
+<p>tonton video untuk memperkuat pemahaman tentang mutasi dan kelainan genetik.</p>
+<div class="grid">
+<div class="video-card">
+<iframe src="https://www.youtube-nocookie.com/embed/xZMQ6kCQsFE" allowfullscreen title="Mutasi Biologi kelas 12"></iframe>
+<h3>mutasi — biologi kelas 12</h3><p>pengertian mutasi, mutagen, jenis mutasi dan contoh.</p>
+</div>
+<div class="video-card">
+<iframe src="https://www.youtube-nocookie.com/embed/Z_eyjzHSw-0" allowfullscreen title="Mutasi gen"></iframe>
+<h3>mutasi gen</h3><p>memahami perubahan materi genetik pada tingkat gen.</p>
+</div>
+<div class="video-card">
+<iframe src="https://www.youtube-nocookie.com/embed/fmsYcCFUnag" allowfullscreen title="Dampak mutasi"></iframe>
+<h3>dampak mutasi dalam kehidupan</h3><p>contoh dampak mutasi dan kaitannya dengan kondisi genetik.</p>
+</div>
+</div>
+<div class="card pink">
+<h3>📝 catatan setelah menonton</h3>
+<label>satu konsep yang aku pahami:</label><textarea placeholder="tulis konsep penting dari video..."></textarea>
+<label>satu pertanyaan yang masih aku miliki:</label><textarea placeholder="tulis pertanyaanmu di sini..."></textarea>
+</div>
+</section>
+
+<section id="game">
+<h2>🕵️ game: gen atau kromosom?</h2>
+<p>pilih klasifikasi yang sesuai dengan informasi pada kartu.</p>
+<div id="cards" class="grid"></div>
+<button class="primary" onclick="checkGame()">cek jawaban</button>
+<button onclick="resetGame()">reset</button>
+<div id="gameResult" class="result" style="display:none"></div>
+</section>
+
+<section id="analisis">
+<h2>🔎 analisis kasus kelompok</h2>
+<div class="card yellow"><h3>kasus: hemofilia</h3>
+<p>seorang individu mengalami gangguan dalam proses pembekuan darah. informasi menunjukkan kondisi tersebut berkaitan dengan perubahan gen yang berperan dalam pembentukan faktor pembekuan.</p>
+<p><b>misi:</b> tentukan jenis perubahan materi genetik dan jelaskan alasanmu.</p></div>
+<div class="card">
+<label>informasi penting dari kasus</label><textarea placeholder="catat bukti yang kamu temukan..."></textarea>
+<label>dugaan jenis perubahan materi genetik</label><textarea placeholder="gen atau kromosom?"></textarea>
+<label>alasan berdasarkan konsep biologi</label><textarea placeholder="jelaskan alasan kelompokmu..."></textarea>
+</div>
+</section>
+
+<section id="quiz">
+<h2>📝 exit quiz</h2><p>jawab pertanyaan berikut untuk menguji pemahamanmu.</p>
+<div id="quizBox"></div>
+<button class="primary" onclick="gradeQuiz()">lihat hasil</button>
+<button onclick="buildQuiz()">ulang kuis</button>
+<div id="quizResult" class="result" style="display:none"></div>
+</section>
+
+<section id="refleksi">
+<h2>🌷 refleksi 2–1</h2>
+<div class="card pink"><label>2 hal yang sudah aku pahami:</label><textarea placeholder="1. ...&#10;2. ..."></textarea></div>
+<div class="card lav"><label>1 hal yang masih ingin aku tanyakan:</label><textarea placeholder="aku masih ingin tahu tentang..."></textarea></div>
+<div class="card mint"><label>aktivitas yang paling membantuku belajar:</label><textarea placeholder="menurutku aktivitas yang paling membantu adalah..."></textarea></div>
+</section>
+
+<footer>media pembelajaran biologi • kelainan hereditas • kelas xii 🌸</footer>
+</main>
+
+<script>
+function showPage(id,btn){
+ document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
+ if(btn)btn.classList.add("active");
+ else{
+  const pages=["home","materi","galeri","video","game","analisis","quiz","refleksi"];
+  const buttons=document.querySelectorAll("nav button");
+  const index=pages.indexOf(id);
+  if(index>=0&&buttons[index])buttons[index].classList.add("active");
+ }
+ window.scrollTo({top:0,behavior:"smooth"});
+}
+
+const conditions=[
+ ["buta warna","variasi gen yang berperan dalam penglihatan warna","gen","🎨"],
+ ["hemofilia","gen yang berperan dalam faktor pembekuan darah","gen","🩸"],
+ ["albinisme","gen yang berperan dalam produksi melanin","gen","🌞"],
+ ["sindrom down","trisomi kromosom 21","kromosom","🧬"],
+ ["sindrom turner","satu kromosom x lengkap (45,x)","kromosom","🧬"],
+ ["polidaktili","variasi gen yang dapat memengaruhi jumlah jari","gen","🖐️"]
+];
+const cards=document.getElementById("cards");
+conditions.forEach((c,i)=>{
+ cards.innerHTML+=`
+ <div class="card">
+ <div class="case-img ${i%2?'mintbg':'pinkbg'}">${c[3]}</div>
+ <h3>${c[0]}</h3><p>${c[1]}</p>
+ <select id="choice${i}">
+ <option value="">pilih jawaban...</option>
+ <option value="gen">perubahan gen</option>
+ <option value="kromosom">perubahan kromosom</option>
+ </select></div>`;
+});
+function checkGame(){
+ let score=0;conditions.forEach((c,i)=>{if(document.getElementById("choice"+i).value===c[2])score++});
+ let r=document.getElementById("gameResult");r.style.display="block";
+ r.innerHTML=`hasilmu: <b>${score}/6 benar</b><br>`+(score===6?"hebat! semua klasifikasi benar.":"coba telaah kembali petunjuk dan konsep biologinya.");
+}
+function resetGame(){conditions.forEach((c,i)=>document.getElementById("choice"+i).value="");document.getElementById("gameResult").style.display="none"}
+
+const questions=[
+ ["kelainan genetik berkaitan dengan...",["perubahan materi genetik","cuaca","olahraga","warna pakaian"],0],
+ ["gen adalah...",["sel utuh","bagian dna yang membawa informasi","organ","jaringan"],1],
+ ["kromosom tersusun atas...",["air","lemak","dna dan protein","karbohidrat"],2],
+ ["trisomi 21 berkaitan dengan...",["perubahan jumlah kromosom","warna kulit","vitamin","infeksi"],0],
+ ["albinisme dapat berkaitan dengan gen yang berperan dalam...",["pembekuan darah","produksi melanin","pendengaran","jumlah jari"],1],
+ ["hemofilia memengaruhi proses...",["pigmentasi","pembekuan darah","penglihatan warna","jumlah kromosom"],1],
+ ["sindrom turner umumnya berkaitan dengan...",["trisomi 21","satu kromosom x","pigmen","bakteri"],1],
+ ["perubahan gen dapat terjadi walaupun...",["jumlah kromosom normal","semua dna hilang","tidak ada sel","organ hilang"],0],
+ ["analisis kasus sebaiknya berdasarkan...",["stereotip","rumor","bukti dan informasi","penampilan saja"],2],
+ ["sikap terhadap individu dengan kondisi genetik adalah...",["mengejek","mengucilkan","menghargai","mendiskriminasi"],2]
+];
+function buildQuiz(){
+ let box=document.getElementById("quizBox");box.innerHTML="";
+ questions.forEach((q,i)=>{
+ let div=document.createElement("div");div.className="question";
+ div.innerHTML=`<b>${i+1}. ${q[0]}</b>`+q[1].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${o}</label>`).join("");
+ box.appendChild(div);
+ });
+ document.getElementById("quizResult").style.display="none";
+}
+function gradeQuiz(){
+ let score=0;questions.forEach((q,i)=>{let a=document.querySelector(`input[name="q${i}"]:checked`);if(a&&Number(a.value)===q[2])score++});
+ let r=document.getElementById("quizResult");r.style.display="block";
+ r.innerHTML=`<h3>nilai: ${score}/10 (${score*10}%)</h3>`+(score>=8?"bagus! pemahamanmu sudah kuat.":score>=6?"cukup baik, pelajari kembali bagian yang belum dikuasai.":"yuk, baca ulang materi dan coba lagi.");
+}
+buildQuiz();
+</script>
+</body>
+</html>
