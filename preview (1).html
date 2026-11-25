@@ -105,6 +105,11 @@ section.active{display:block}
 .pink{background:#fff0f6}.lav{background:#f3ecff}.mint{background:#eaf8f1}.yellow{background:#fff8df}.blue{background:#eff8ff}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .case-img{
+    width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:16px;
+}
   width:100%;height:170px;border-radius:16px;display:flex;
   align-items:center;justify-content:center;font-size:75px;
   background:linear-gradient(135deg,var(--lav),var(--pink))
@@ -301,24 +306,32 @@ function showPage(id,btn){
 }
 
 const conditions=[
- ["buta warna","variasi gen yang berperan dalam penglihatan warna","gen","🎨"],
- ["hemofilia","gen yang berperan dalam faktor pembekuan darah","gen","🩸"],
- ["albinisme","gen yang berperan dalam produksi melanin","gen","🌞"],
- ["sindrom down","trisomi kromosom 21","kromosom","🧬"],
- ["sindrom turner","satu kromosom x lengkap (45,x)","kromosom","🧬"],
- ["polidaktili","variasi gen yang dapat memengaruhi jumlah jari","gen","🖐️"]
+ ["buta warna","variasi gen yang berperan dalam penglihatan warna","gen","images/buta-warna.jpg"],
+ ["hemofilia","gen yang berperan dalam faktor pembekuan darah","gen","images/hemofilia.avif"],
+ ["albinisme","gen yang berperan dalam produksi melanin","gen","images/albino.jpg"],
+ ["sindrom down","trisomi kromosom 21","kromosom","images/down.jpg"],
+ ["sindrom turner","satu kromosom x lengkap (45,x)","kromosom","images/turner.webp"],
+ ["polidaktili","variasi gen yang dapat memengaruhi jumlah jari","gen","images/poli.jpg"]
 ];
+
 const cards=document.getElementById("cards");
+
 conditions.forEach((c,i)=>{
  cards.innerHTML+=`
  <div class="card">
- <div class="case-img ${i%2?'mintbg':'pinkbg'}">${c[3]}</div>
- <h3>${c[0]}</h3><p>${c[1]}</p>
- <select id="choice${i}">
- <option value="">pilih jawaban...</option>
- <option value="gen">perubahan gen</option>
- <option value="kromosom">perubahan kromosom</option>
- </select></div>`;
+   <div class="case-img ${i%2?'mintbg':'pinkbg'}">
+     <img src="${c[3]}" alt="Ilustrasi ${c[0]}">
+   </div>
+
+   <h3>${c[0]}</h3>
+   <p>${c[1]}</p>
+
+   <select id="choice${i}">
+     <option value="">pilih jawaban...</option>
+     <option value="gen">perubahan gen</option>
+     <option value="kromosom">perubahan kromosom</option>
+   </select>
+ </div>`;
 });
 function checkGame(){
  let score=0;conditions.forEach((c,i)=>{if(document.getElementById("choice"+i).value===c[2])score++});
